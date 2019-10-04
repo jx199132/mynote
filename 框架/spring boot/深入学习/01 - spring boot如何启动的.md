@@ -2,14 +2,17 @@
 
 
 
-在ide中可以执行运行代码启动
+## 启动方式
+
+- 在ide中可以执行运行代码启动
+
 
 ```java
 @SpringBootApplication
-public class SpringbootApplication {
+public class RunByJarApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringbootApplication.class, args);
+        SpringApplication.run(RunByJarApplication.class, args);
     }
 
 }
@@ -17,7 +20,8 @@ public class SpringbootApplication {
 
 
 
-但是通过maven打包之后的项目，也可以通过命令启动
+- 通过maven打包之后的项目，也可以通过命令启动
+
 
 ```shell
 java -jar /Users/no1/work/idea/springboot/run_by_jar/target/run_by_jar-0.0.1-SNAPSHOT.jar
@@ -58,7 +62,7 @@ Main-Class: org.springframework.boot.loader.JarLauncher
 
 通过java -jar archive.jar 运行时候Launcher会去加载JarLauncher类并执行其中的main函数，JarLauncher主要关心构造一个合适的URLClassLoader加载器用来调用我们应用程序的main方法
 
-详情可以查看源码通过maven下载依赖
+详情可以通过maven下载依赖查看源码
 
 ```
 <dependency>
@@ -67,5 +71,17 @@ Main-Class: org.springframework.boot.loader.JarLauncher
     <version>2.1.9.RELEASE</version>
     <scope>provided</scope>
 </dependency>
+```
+
+
+
+下面是spring-boot-loader的片段代码
+
+```java
+public void run() throws Exception {
+		Class<?> mainClass = Thread.currentThread().getContextClassLoader().loadClass(this.mainClassName);
+		Method mainMethod = mainClass.getDeclaredMethod("main", String[].class);
+		mainMethod.invoke(null, new Object[] { this.args });
+	}
 ```
 
