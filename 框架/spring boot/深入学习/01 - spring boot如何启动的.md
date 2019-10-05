@@ -56,9 +56,23 @@ Main-Class: org.springframework.boot.loader.JarLauncher
 
 
 
-从ide查看项目发现并没有 org.springframework.boot.loader.JarLauncher ，从maven打出来 run_by_jar-0.0.1-SNAPSHOT.jar 中发现会有一个 org.springframework.boot.loader.JarLauncher。  所以这里的应该是maven的打包插件干的
+## maven打包的过程
+
+从ide查看项目发现并没有 org.springframework.boot.loader.JarLauncher ，从maven打出来 run_by_jar-0.0.1-SNAPSHOT.jar 中发现会有一个 org.springframework.boot.loader.JarLauncher。  所以这里的应该是maven的打包插件干的，如果想查看maven打包是做了些什么，可以下载插件源码进行查看
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <version>2.1.8.RELEASE</version>
+</dependency>
+```
 
 
+
+
+
+## spring-boot-loader过程
 
 通过java -jar archive.jar 运行时候Launcher会去加载JarLauncher类并执行其中的main函数，JarLauncher主要关心构造一个合适的URLClassLoader加载器用来调用我们应用程序的main方法
 
